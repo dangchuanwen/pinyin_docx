@@ -1,0 +1,16 @@
+{
+  "id": "1898326",
+  "name": "temp",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "8358842",
+      "name": "取消1",
+      "font_class": "quxiao",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    }
+  ]
+}
