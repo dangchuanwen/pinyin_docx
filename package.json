@@ -1,0 +1,22 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "koa": "^2.12.1",
+    "koa-bodyparser": "^4.3.0",
+    "officegen": "^0.6.4",
+    "superagent": "^5.2.2"
+  },
+  "devDependencies": {
+    "docxtemplater": "^3.17.9",
+    "pizzip": "^3.0.6"
+  }
+}
