@@ -1,6 +1,6 @@
 <template>
   <div class="waiting-cover">
-    <span>正在生成拼音文档</span>
+    <span>{{ tipContent }}</span>
     <span>{{ ellipsis }}</span>
   </div>
 </template>
@@ -8,6 +8,12 @@
 <script>
 export default {
   name: "WaitingCover",
+  props: {
+    tipContent: {
+      type: String,
+      default: () => "正在生成拼音文档"
+    }
+  },
   data() {
     return {
       ellipsis: "."

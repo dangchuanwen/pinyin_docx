@@ -4,7 +4,7 @@
     <word-input @addNewWord="addNewWord"></word-input>
     <span>词汇数目：{{ wordList.length }}</span>
     <p class="download" v-if="ifFinish">
-      下载：<a :href="downloadLink">拼音.docx</a>
+      下载：<a :href="downloadLink" v-if="downloadLink !== '#'">拼音.docx</a>
     </p>
     <word-display
       :wordList="wordList"
@@ -12,7 +12,10 @@
       ref="wordDisplay"
     ></word-display>
     <button class="submit-button" @click="submit">立即转换</button>
-    <waiting-cover v-if="ifWaitingCover"></waiting-cover>
+    <waiting-cover
+      v-if="ifWaitingCover"
+      :tipContent="tipContent"
+    ></waiting-cover>
   </div>
 </template>
 
@@ -34,7 +37,8 @@ export default {
       wordList: [],
       ifWaitingCover: false,
       ifFinish: false,
-      downloadLink: "#"
+      downloadLink: "#",
+      tipContent: ""
     };
   },
   methods: {
@@ -61,10 +65,15 @@ export default {
           word_list: JSON.stringify(list)
         })
         .then(res => {
-          console.log(res);
+          if (res && res.data && res.data.data) {
+            const docxLink = res.data.data.href;
+            this.ifFinish = true;
+            this.ifWaitingCover = false;
+            this.downloadLink = docxLink;
+          } else {
+            this.tipContent = "转换失败...";
+          }
         });
-      //this.ifFinish = true;
-      //this.ifWaitingCover = false;
     }
   }
 };
