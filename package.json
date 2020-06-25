@@ -12,6 +12,7 @@
     "cheerio": "^1.0.0-rc.3",
     "koa": "^2.12.1",
     "koa-bodyparser": "^4.3.0",
+    "koa-static": "^5.0.0",
     "officegen": "^0.6.4",
     "superagent": "^5.2.2"
   },

@@ -2,12 +2,12 @@ const officegen = require("officegen");
 const fs = require("fs");
 const path = require("path");
 
-function generateDocx(pinyins) {
+function generateDocx(pinyins, newDocxName) {
   return new Promise((resolve, reject) => {
     let docx = officegen("docx");
 
     docx.on("finalize", function (written) {
-      resolve();
+      resolve(newDocxName);
       console.log("Finish to create a Word document.");
     });
 
@@ -33,22 +33,21 @@ function generateDocx(pinyins) {
         line++;
         /* 五个为一行写入 */
 
-        // 首先首部写几个空格
-        pObj.addText(" ");
         // 将五个拼音写入到一行
         temp.forEach((pinyin) => {
-          console.log(pinyin);
+          pObj.addText(SPACE(1), { font_size: 17 });
           pObj.addText(pinyin, { font_size: 17 });
-          pObj.addText(SPACE(14));
+          pObj.addText(SPACE(1), { font_size: 17 });
+          pObj.addText(SPACE(13));
         });
         // 换行，下一行写括号
         pObj.addLineBreak();
         // 写括号
         temp.forEach((item) => {
-          pObj.addText("( ");
-          pObj.addText(SPACE(20));
-          pObj.addText(" )");
-          pObj.addText(SPACE(7));
+          pObj.addText("(", { font_size: 17 });
+          pObj.addText( item, { font_size: 17, color: 'ffffff' } );
+          pObj.addText(")", { font_size: 17 });
+          pObj.addText(SPACE(12));
         });
         pObj.addLineBreak();
         pObj.addLineBreak();
@@ -62,7 +61,7 @@ function generateDocx(pinyins) {
       }
     }
 
-    let out = fs.createWriteStream("example.docx");
+    let out = fs.createWriteStream(newDocxName);
 
     out.on("error", function (err) {
       reject(err);

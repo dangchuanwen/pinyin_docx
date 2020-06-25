@@ -1,4 +1,5 @@
 const getPinYin = require("./getPinYin");
+const koaStatic = require('koa-static');
 const Koa = require("koa");
 const bodyParser = require("koa-bodyparser");
 const generateDocx = require("./generateDocx");
@@ -6,6 +7,7 @@ const generateDocx = require("./generateDocx");
 const app = new Koa();
 
 app.use(bodyParser());
+app.use(koaStatic('.'));
 
 function Moment(time) {
   return new Promise((resolve) => {
@@ -39,8 +41,12 @@ app.use(async ctx => {
       await Moment(20);
     }
     
-    await generateDocx(pinyins);
-    body = Response(0, "生成文档成功", { href: "" })
+    // 生成的文档名字 = 时间戳 + 随机数
+    const newDocxName = String(new Date().getTime()) + String(Math.ceil(Math.random() * 100)) + ".docx"; 
+    await generateDocx(pinyins, newDocxName);
+    // 生成 docx 的链接供用户下载
+    const href = `http://${ ctx.request.host }/${ newDocxName }`;
+    body = Response(0, "生成文档成功", { href: href })
 
   } else {
     body = Response(-1, "获取参数失败", {});
@@ -50,4 +56,6 @@ app.use(async ctx => {
 
 });
 
-app.listen(3001);
+app.listen(3001, () => {
+  console.log("run at 3001")
+});
